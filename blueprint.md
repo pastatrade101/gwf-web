@@ -1,45 +1,44 @@
-
-# Tanzania Regions & Councils Explorer - Blueprint
+# Tanzania Regions App
 
 ## Overview
 
-This document outlines the plan for creating a Flutter application that serves as a directory for all regional and council websites in Tanzania. The app will provide a user-friendly interface to browse, search, and access these websites.
+This is a Flutter application that allows users to explore the regions and councils of Tanzania. The app provides a list of all regions in Tanzania, and for each region, it lists the respective councils. Each council has a link to its official website, which can be opened from within the app.
 
 ## Features
 
-*   **Region & Council Listing:** Display a comprehensive list of all 26 regions and 184 councils in Tanzania.
-*   **Search Functionality:** Allow users to search for specific regions or councils.
-*   **Website Navigation:** Enable users to open the official website for each council with a single tap.
-*   **Modern UI/UX:** A visually appealing and intuitive design, following Material Design guidelines.
-*   **Responsive Design:** The app will be responsive and work well on both mobile phones and web browsers.
+*   **Onboarding Screen:** A welcoming screen for first-time users.
+*   **Home Screen:** Displays a list of all Tanzanian regions.
+*   **Search Functionality:** Allows users to search for regions and councils.
+*   **Expandable Region Cards:** Each region is displayed as an expandable card, showing the councils within that region when expanded.
+*   **Direct link to Council Websites:** Each council has a button that opens its official website.
 
-## Application Architecture
+## Design
 
-*   **State Management:** We will use `provider` for managing the app's theme and other shared states.
-*   **Navigation:** We will use `go_router` for declarative navigation, which is robust and supports deep linking.
-*   **Data:** The region and council data will be stored locally within the app for fast access.
-*   **UI Components:** We will use a combination of modern UI components to create a visually appealing and interactive experience. This includes `Card` widgets for list items, `ExpansionTile` for a nested list of councils under regions, and a search bar for filtering.
+*   **Theme:** The app uses a color scheme inspired by the Tanzanian flag, with a dark primary color and white text.
+*   **Typography:** The app uses the `google_fonts` package with the `Nunito` font for a clean and modern look.
+*   **Layout:** The layout is designed to be simple and intuitive, with a clear hierarchy of information.
 
-## Implementation Plan
+## Project Structure
 
-1.  **Setup Project:**
-    *   Add necessary dependencies: `google_fonts`, `provider`, `url_launcher`, and `go_router`.
-    *   Create a `blueprint.md` file to document the project.
-
-2.  **Create Data Model:**
-    *   Define a data structure for regions and councils in `lib/data.dart`.
-    *   Populate the data file with sample data for regions and councils.
-
-3.  **Develop UI:**
-    *   **Theme:** Implement a theme with `google_fonts` and a custom color scheme in `lib/main.dart`.
-    *   **Home Screen:** Create a home screen (`lib/home_screen.dart`) that displays a searchable list of regions.
-    *   **Region Details Screen:** Create a screen (`lib/region_details_screen.dart`) to show the councils of a selected region.
-
-4.  **Implement Functionality:**
-    *   **Search:** Add search logic to filter regions and councils.
-    *   **Navigation:** Set up routes using `go_router` to navigate between the home screen and region details screen.
-    - **Website Launching:** Use the `url_launcher` package to open council websites.
-
-5.  **Refine and Test:**
-    *   Ensure the app is responsive and handles errors gracefully.
-    *   Format the code and run analysis to ensure code quality.
+```
+lib/
+├── app/
+│   └── app.dart
+├── data/
+│   ├── models/
+│   │   ├── council.dart
+│   │   └── region.dart
+│   └── region_data.dart
+├── features/
+│   └── home/
+│       ├── home_screen.dart
+│       └── widgets/
+│           ├── council_tile.dart
+│           ├── header.dart
+│           ├── region_card.dart
+│           └── search_bar.dart
+├── main.dart
+├── onboarding_screen.dart
+└── services/
+    └── url_launcher_service.dart
+```
