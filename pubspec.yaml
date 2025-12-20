@@ -40,6 +40,8 @@ dependencies:
   cached_network_image: ^3.4.1
   introduction_screen: ^4.0.0
   shared_preferences: ^2.5.4
+  get: ^4.7.3
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:
