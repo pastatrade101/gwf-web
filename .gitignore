@@ -41,6 +41,7 @@ mcp/firebase-mcp/
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 prokit-flutter_v7.4.0/
+lib.zip
 
 # Symbolication related
 app.*.symbols
