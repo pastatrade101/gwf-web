@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/constants/app_dimens.dart';
+import '../../../core/constants/app_text_styles.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -8,28 +10,21 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(AppDimens.xl),
       child: Row(
         children: [
-          Image.asset('assets/tanzania_flag.png', height: 40),
-          const SizedBox(width: 15),
+          Image.asset('assets/tanzania_flag.png', height: AppDimens.iconBoxSm),
+          const SizedBox(width: AppDimens.lg),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Tanzania Regions',
-                style: GoogleFonts.nunito(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: AppTextStyles.appBar.copyWith(color: Colors.white),
               ),
               Text(
                 'Explore all 31 regions & councils',
-                style: GoogleFonts.nunito(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
+                style: AppTextStyles.body.copyWith(color: Colors.white70),
               ),
             ],
           ),

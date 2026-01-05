@@ -1,0 +1,96 @@
+mutation CreateInquiry($departmentId: UUID!, $userId: UUID!, $message: String!, $status: String!, $subject: String!) @auth(level: USER) {
+  inquiry_insert(data: {departmentId: $departmentId, userId: $userId, message: $message, status: $status, subject: $subject, submittedAt_expr: "request.time"})
+}
+
+query ListNewsArticles @auth(level: PUBLIC) {
+  newsArticles {
+    id
+    title
+    content
+    publishedAt
+    author
+    imageUrl
+    category
+    region
+    council
+  }
+}
+
+query ListDepartments @auth(level: PUBLIC) {
+  departments {
+    id
+    name
+    contactEmail
+    website
+    address
+    phoneNumber
+  }
+}
+
+mutation CreateService(
+  $departmentId: UUID!
+  $name: String!
+  $description: String!
+  $requirements: String
+  $onlineLink: String
+  $contactInfo: String
+) @auth(level: USER) {
+  service_insert(
+    data: {
+      departmentId: $departmentId
+      name: $name
+      description: $description
+      requirements: $requirements
+      onlineLink: $onlineLink
+      contactInfo: $contactInfo
+    }
+  )
+}
+
+mutation CreateDepartment(
+  $name: String!
+  $contactEmail: String!
+  $website: String
+  $address: String
+  $phoneNumber: String
+) @auth(level: USER) {
+  department_insert(
+    data: {
+      name: $name
+      contactEmail: $contactEmail
+      website: $website
+      address: $address
+      phoneNumber: $phoneNumber
+    }
+  )
+}
+
+mutation SubscribeToNotifications($targetIdentifier: String!, $type: String!, $userId: UUID!) @auth(level: USER) {
+  notificationSubscription_insert(data: {userId: $userId, targetIdentifier: $targetIdentifier, type: $type})
+}
+
+query GetServicesByDepartment($departmentId: UUID!) @auth(level: PUBLIC) {
+  services(where: {departmentId: {eq: $departmentId}}) {
+    id
+    name
+    description
+    contactInfo
+    onlineLink
+    requirements
+  }
+}
+
+query ListServices @auth(level: PUBLIC) {
+  services {
+    id
+    name
+    description
+    contactInfo
+    onlineLink
+    requirements
+    department {
+      id
+      name
+    }
+  }
+}

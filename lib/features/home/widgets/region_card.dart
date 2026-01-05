@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/data/models/region.dart';
 import 'package:myapp/features/home/widgets/council_tile.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_dimens.dart';
+import '../../../core/constants/app_text_styles.dart';
 
 class RegionCard extends StatelessWidget {
   final Region region;
@@ -11,10 +14,14 @@ class RegionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final muted = isDark ? AppColors.textMutedDark : AppColors.textMuted;
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      elevation: 2,
+      margin: const EdgeInsets.symmetric(horizontal: AppDimens.xl, vertical: AppDimens.sm),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimens.radiusLg)),
+      elevation: 0,
+      color: theme.cardColor,
       child: ExpansionTile(
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -25,14 +32,11 @@ class RegionCard extends StatelessWidget {
         ),
         title: Text(
           region.name,
-          style: GoogleFonts.nunito(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTextStyles.sectionTitle,
         ),
         subtitle: Text(
           '${region.councils.length} councils',
-          style: GoogleFonts.nunito(color: Colors.grey.shade600),
+          style: AppTextStyles.bodyMuted.copyWith(color: muted),
         ),
         children: region.councils
             .map((council) => CouncilTile(council: council))

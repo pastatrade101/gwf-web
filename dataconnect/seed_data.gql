@@ -1,0 +1,133 @@
+mutation SeedData @transaction @auth(level: PUBLIC, insecureReason: "This operation is used to seed the database with initial data and is safe to expose.") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      displayName: "demouser1",
+      email: "demouser1@example.com",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      displayName: "demouser2",
+      email: "demouser2@example.com",
+      createdAt: "2024-01-02T00:00:00Z"
+    }
+  ])
+  department_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440000",
+      name: "department1",
+      contactEmail: "department1@example.com"
+    },
+    {
+      id: "650e8400-e29b-41d4-a716-446655440001",
+      name: "department2",
+      contactEmail: "department2@example.com"
+    }
+  ])
+  service_insertMany(data: [
+    {
+      id: "750e8400-e29b-41d4-a716-446655440000",
+      departmentId: "650e8400-e29b-41d4-a716-446655440000",
+      name: "service1",
+      description: "service1 description"
+    },
+    {
+      id: "750e8400-e29b-41d4-a716-446655440001",
+      departmentId: "650e8400-e29b-41d4-a716-446655440001",
+      name: "service2",
+      description: "service2 description"
+    }
+  ])
+  inquiry_insertMany(data: [
+    {
+      id: "850e8400-e29b-41d4-a716-446655440000",
+      departmentId: "650e8400-e29b-41d4-a716-446655440000",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      message: "inquiry1 message",
+      status: "open",
+      subject: "inquiry1 subject",
+      submittedAt: "2024-01-03T00:00:00Z"
+    },
+    {
+      id: "850e8400-e29b-41d4-a716-446655440001",
+      departmentId: "650e8400-e29b-41d4-a716-446655440001",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      message: "inquiry2 message",
+      status: "closed",
+      subject: "inquiry2 subject",
+      submittedAt: "2024-01-04T00:00:00Z"
+    }
+  ])
+  newsArticle_insertMany(data: [
+    {
+      id: "950e8400-e29b-41d4-a716-446655440000",
+      category: "Elimu",
+      content: "Naibu Waziri wa Ofisi ya Waziri Mkuu, Tawala za Mikoa na Serikali za Mitaa (OWM–TAMISEMI) anayeshughulikia Elimu, Mhe. Reuben Kwagilwa, akizungumza kwa niaba ya Waziri wa Nchi, OWM–TAMISEMI, Mhe. Profesa Riziki Shemdoe, alitoa maelekezo ya kusimamishwa kwa watumishi hao ili kupisha uchunguzi wa matumizi ya fedha za ujenzi wa Shule ya Sekondari ya Wasichana Lugalo.",
+      publishedAt: "2025-02-10T08:00:00Z",
+      title: "Naibu Waziri Aagiza Kusimamishwa Watumishi Kilolo",
+      author: "OWM–TAMISEMI",
+      imageUrl: "https://images.unsplash.com/photo-1708117242652-25dc76c4b30c?w=1080",
+      region: "Iringa",
+      council: "Kilolo District Council"
+    },
+    {
+      id: "950e8400-e29b-41d4-a716-446655440001",
+      category: "Afya",
+      content: "Wizara ya Afya kwa kushirikiana na TAMISEMI imeendelea kuimarisha huduma za afya ya msingi katika vituo vya afya na zahanati kwa kuongeza vifaa tiba na rasilimali watu.",
+      publishedAt: "2025-01-22T10:30:00Z",
+      title: "Huduma za Afya ya Msingi Zaimarishwa",
+      author: "Wizara ya Afya",
+      imageUrl: "https://images.unsplash.com/photo-1580281658629-4b4a247cf142?w=1080",
+      region: "Dar es Salaam",
+      council: "Ilala Municipal Council"
+    },
+    {
+      id: "950e8400-e29b-41d4-a716-446655440002",
+      category: "Miundombinu",
+      content: "Mradi wa ujenzi wa barabara za ndani ya miji umefikia hatua muhimu baada ya kukamilika kwa asilimia 80 ya kazi katika mikoa ya Kanda ya Ziwa.",
+      publishedAt: "2025-03-05T14:00:00Z",
+      title: "Ujenzi wa Barabara za Ndani Ya Miji Wafikia Asilimia 80",
+      author: "TAMISEMI",
+      imageUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1080",
+      region: "Mwanza",
+      council: "Nyamagana Municipal Council"
+    },
+    {
+      id: "950e8400-e29b-41d4-a716-446655440003",
+      category: "Uchumi",
+      content: "Mikutano ya uwekezaji katika halmashauri imeongeza mapato ya ndani na kuwezesha utekelezaji wa miradi ya maendeleo ya wananchi.",
+      publishedAt: "2025-02-28T09:15:00Z",
+      title: "Mapato ya Ndani Halmashauri Yaongezeka",
+      author: "PO-RALG",
+      imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1080",
+      region: "Dodoma",
+      council: "Dodoma City Council"
+    },
+    {
+      id: "950e8400-e29b-41d4-a716-446655440004",
+      category: "Taarifa",
+      content: "TAMISEMI inawatangazia wananchi kuhusu maboresho ya huduma za serikali mtandao ili kuongeza uwazi na ufanisi wa utoaji huduma.",
+      publishedAt: "2025-01-10T11:45:00Z",
+      title: "Maboresho ya Huduma za Serikali Mtandao",
+      author: "TAMISEMI",
+      imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1080",
+      region: "Dodoma",
+      council: "Kongwa District Council"
+    }
+  ])
+  notificationSubscription_insertMany(data: [
+    {
+      id: "a50e8400-e29b-41d4-a716-446655440000",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      targetIdentifier: "target1",
+      type: "type1"
+    },
+    {
+      id: "a50e8400-e29b-41d4-a716-446655440001",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      targetIdentifier: "target2",
+      type: "type2"
+    }
+  ])
+}

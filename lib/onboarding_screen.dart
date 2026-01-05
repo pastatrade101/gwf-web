@@ -1,99 +1,237 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:myapp/features/home/home_screen.dart';
+
+import 'app/app.dart';
+import 'core/constants/app_colors.dart';
+import 'core/constants/app_dimens.dart';
+import 'core/constants/app_text_styles.dart';
+
+
+class OnboardingStore {
+  static final _box = GetStorage();
+  static const _key = 'onboarding_completed';
+  static const _legacyKey = 'seenOnboarding';
+
+  static bool get isDone =>
+      _box.read(_key) == true || _box.read(_legacyKey) == true;
+
+  static Future<void> setDone() async {
+    await _box.write(_key, true);
+    await _box.write(_legacyKey, true);
+  }
+}
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  late final PageController _controller;
+  int _index = 0;
 
-  void _completeOnboarding() {
-    final box = GetStorage();
-    box.write('onboarding_completed', true);
-    Get.offAll(() => const HomeScreen());
+  final List<_OnboardItem> _pages = const [
+    _OnboardItem(
+      icon: Icons.public_rounded,
+      title: "Welcome",
+      subtitle: "Access services and information easily.",
+    ),
+    _OnboardItem(
+      icon: Icons.layers_rounded,
+      title: "Land Sales",
+      subtitle: "Browse open land and sold land by councils.",
+    ),
+    _OnboardItem(
+      icon: Icons.security_rounded,
+      title: "Official & Secure",
+      subtitle: "Information is sourced from official systems.",
+    ),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _finish() async {
+    await OnboardingStore.setDone();
+    Get.offAll(() => const AppShell());
+  }
+
+  void _next() {
+    if (_index < _pages.length - 1) {
+      _controller.nextPage(
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOut,
+      );
+    } else {
+      _finish();
+    }
+  }
+
+  void _back() {
+    if (_index > 0) {
+      _controller.previousPage(
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final bg = isDark ? AppColors.bgDark : AppColors.bg;
+    final card = isDark ? AppColors.cardDark : AppColors.card;
+    final border = isDark ? AppColors.borderDark : AppColors.border;
+    final text = isDark ? AppColors.textPrimaryDark : AppColors.textPrimary;
+    final muted = isDark ? AppColors.textMutedDark : AppColors.textMuted;
+
     return Scaffold(
+      backgroundColor: bg,
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (int page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-                children: const [
-                  OnboardingPage(
-                    image: 'assets/undraw_map_1.svg',
-                    title: 'Discover Regions',
-                    description: 'Easily browse and search for regions across Tanzania.',
-                  ),
-                  OnboardingPage(
-                    image: 'assets/undraw_city_1.svg',
-                    title: 'Explore Councils',
-                    description: 'Get detailed information about the councils within each region.',
-                  ),
-                  OnboardingPage(
-                    image: 'assets/undraw_data_1.svg',
-                    title: 'In-Depth Statistics',
-                    description: 'Access key statistics and data for each council.',
+            // Top bar
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppDimens.pagePadding,
+                AppDimens.sm,
+                AppDimens.pagePadding,
+                AppDimens.xs,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: AppDimens.navIconSize),
+                  Text("Welcome", style: AppTextStyles.appBar.copyWith(color: text)),
+                  TextButton(
+                    onPressed: _finish,
+                    child: Text("Skip", style: AppTextStyles.link),
                   ),
                 ],
               ),
             ),
+
+            // Pages
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: _pages.length,
+                onPageChanged: (i) => setState(() => _index = i),
+                itemBuilder: (_, i) => Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppDimens.pagePadding,
+                    AppDimens.pagePadding,
+                    AppDimens.pagePadding,
+                    0,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(AppDimens.xxl),
+                    decoration: BoxDecoration(
+                      color: card,
+                      borderRadius: BorderRadius.circular(AppDimens.radius2xl),
+                      border: Border.all(color: border),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: AppDimens.heroIconSize,
+                          height: AppDimens.heroIconSize,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(AppDimens.radius3xl),
+                          ),
+                          child: Icon(_pages[i].icon, size: AppDimens.heroIconInner, color: AppColors.primary),
+                        ),
+                        const SizedBox(height: AppDimens.xxl),
+                        Text(
+                          _pages[i].title,
+                          style: AppTextStyles.headline.copyWith(color: text),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppDimens.sm),
+                        Text(
+                          _pages[i].subtitle,
+                          style: AppTextStyles.bodyMuted.copyWith(color: muted),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Dots
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(top: AppDimens.pagePadding),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(_pages.length, (i) {
+                  final active = i == _index;
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    margin: const EdgeInsets.symmetric(horizontal: AppDimens.xxs),
+                    width: active ? AppDimens.dotActive : AppDimens.dotSize,
+                    height: AppDimens.dotSize,
+                    decoration: BoxDecoration(
+                      color: active ? AppColors.primary : border,
+                      borderRadius: BorderRadius.circular(AppDimens.radiusPill),
+                    ),
+                  );
+                }),
+              ),
+            ),
+
+            // Buttons
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppDimens.pagePadding,
+                AppDimens.lg,
+                AppDimens.pagePadding,
+                AppDimens.xxl,
+              ),
+              child: Row(
                 children: [
-                  TextButton(
-                    onPressed: _completeOnboarding,
-                    child: Text(
-                      'Skip',
-                      style: GoogleFonts.nunito(
-                        fontSize: 16,
-                        color: Colors.white,
+                  Expanded(
+                    child: _index == 0
+                        ? const SizedBox.shrink()
+                        : OutlinedButton(
+                      onPressed: _back,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: AppDimens.md),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimens.radiusMd)),
+                        side: BorderSide(color: border),
                       ),
+                      child: Text("Back", style: TextStyle(color: text, fontWeight: FontWeight.w800)),
                     ),
                   ),
-                  Row(
-                    children: List.generate(
-                      3,
-                      (index) => buildDot(index, context),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (_currentPage == 2) {
-                        _completeOnboarding();
-                      } else {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
-                      }
-                    },
-                    child: Text(
-                      _currentPage == 2 ? 'Get Started' : 'Next',
-                      style: GoogleFonts.nunito(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  if (_index != 0) const SizedBox(width: AppDimens.md),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: _next,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.secondary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: AppDimens.md),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimens.radiusMd)),
+                      ),
+                      child: Text(
+                        _index == _pages.length - 1 ? "Get Started" : "Next",
+                        style: const TextStyle(fontWeight: FontWeight.w900),
                       ),
                     ),
                   ),
@@ -105,64 +243,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-
-  AnimatedContainer buildDot(int index, BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.only(right: 5),
-      height: 6,
-      width: _currentPage == index ? 20 : 6,
-      decoration: BoxDecoration(
-        color: _currentPage == index ? Theme.of(context).primaryColor : const Color(0xFFD8D8D8),
-        borderRadius: BorderRadius.circular(3),
-      ),
-    );
-  }
 }
 
-class OnboardingPage extends StatelessWidget {
-  final String image;
+class _OnboardItem {
+  final IconData icon;
   final String title;
-  final String description;
+  final String subtitle;
 
-  const OnboardingPage({
-    super.key,
-    required this.image,
+  const _OnboardItem({
+    required this.icon,
     required this.title,
-    required this.description,
+    required this.subtitle,
   });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(40.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            image,
-            height: 200,
-          ),
-          const SizedBox(height: 40),
-          Text(
-            title,
-            style: GoogleFonts.nunito(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.nunito(
-              fontSize: 16,
-              color: Colors.white70,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -1,0 +1,48 @@
+{
+  "fallback": {
+    "answer": "I do not have that information yet. Please contact the relevant council office or check the official website.",
+    "answer_sw": "Sina taarifa hiyo kwa sasa. Tafadhali wasiliana na ofisi husika ya halmashauri au tembelea tovuti rasmi."
+  },
+  "intents": [
+    {
+      "question": "How do I access TAMISEMI e-Services?",
+      "answer": "Open the e-Services directory, choose the service you need, and follow the official portal link provided.",
+      "keywords": ["e-services", "services", "tamisemi", "portal", "directory"],
+      "question_sw": "Nawezaje kufikia huduma za TAMISEMI mtandaoni?",
+      "answer_sw": "Fungua orodha ya huduma mtandaoni, chagua huduma unayohitaji, kisha fuata kiungo cha tovuti rasmi.",
+      "keywords_sw": ["huduma", "mtandaoni", "tamisemi", "tovuti", "orodha"]
+    },
+    {
+      "question": "Where can I read government news updates?",
+      "answer": "Go to the News tab to see the latest updates from TAMISEMI and local authorities.",
+      "keywords": ["news", "updates", "latest", "announcements"],
+      "question_sw": "Ninaweza kusoma wapi taarifa za serikali?",
+      "answer_sw": "Nenda kwenye sehemu ya Habari kuona taarifa mpya kutoka TAMISEMI na mamlaka za serikali za mitaa.",
+      "keywords_sw": ["habari", "taarifa", "sasisho", "matangazo"]
+    },
+    {
+      "question": "How can I find my council or district website?",
+      "answer": "Open the Tovuti page, search your region, then open the council or district details to access the official website.",
+      "keywords": ["council", "district", "website", "tovuti", "region"],
+      "question_sw": "Ninawezaje kupata tovuti ya halmashauri au wilaya?",
+      "answer_sw": "Fungua ukurasa wa Tovuti, tafuta mkoa wako, kisha fungua taarifa za halmashauri au wilaya ili kupata tovuti rasmi.",
+      "keywords_sw": ["halmashauri", "wilaya", "tovuti", "mkoa"]
+    },
+    {
+      "question": "Who should use these services?",
+      "answer": "Citizens, government officers, and partners can use the services to access official information and digital government services.",
+      "keywords": ["who", "use", "services", "citizen", "government"],
+      "question_sw": "Ni nani anapaswa kutumia huduma hizi?",
+      "answer_sw": "Wananchi, watumishi wa serikali, na washirika wanaweza kutumia huduma hizi kupata taarifa rasmi na huduma za serikali mtandaoni.",
+      "keywords_sw": ["nani", "tumia", "huduma", "wananchi", "serikali"]
+    },
+    {
+      "question": "How do I contact a council or district?",
+      "answer": "Open the council or district details page to find the official website, email, and contact information.",
+      "keywords": ["contact", "phone", "email", "council", "district"],
+      "question_sw": "Ninawezaje kuwasiliana na halmashauri au wilaya?",
+      "answer_sw": "Fungua ukurasa wa maelezo ya halmashauri au wilaya ili kupata tovuti rasmi, barua pepe, na taarifa za mawasiliano.",
+      "keywords_sw": ["mawasiliano", "simu", "barua pepe", "halmashauri", "wilaya"]
+    }
+  ]
+}

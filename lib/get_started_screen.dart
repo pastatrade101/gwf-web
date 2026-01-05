@@ -1,62 +1,45 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:myapp/features/home/home_screen.dart';
+import 'app/app.dart';
+import 'onboarding_screen.dart';
+import 'core/constants/app_dimens.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key});
 
-  void _completeOnboarding() {
-    final box = GetStorage();
-    box.write('onboarding_completed', true);
-    Get.offAll(() => const HomeScreen());
+  Future<void> _completeOnboarding() async {
+    await OnboardingStore.setDone();
+    Get.offAll(() => const AppShell());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/tanzania_flag.png', height: 100),
-            const SizedBox(height: 30),
-            Text(
-              'Welcome to Tanzania Regions',
-              style: GoogleFonts.nunito(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+            const Icon(Icons.rocket_launch, size: AppDimens.launcherIcon, color: Colors.white),
+            const SizedBox(height: AppDimens.xl),
+            const Text(
+              'You are ready to go!',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: Text(
-                'Explore the regions and councils of Tanzania with ease.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                  fontSize: 16,
-                  color: Colors.white70,
-                ),
-              ),
-            ),
-            const SizedBox(height: 50),
+            const SizedBox(height: AppDimens.xxl),
             ElevatedButton(
               onPressed: _completeOnboarding,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColor,
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                textStyle: GoogleFonts.nunito(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: AppDimens.xxl, vertical: AppDimens.md),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppDimens.radiusMd)),
               ),
-              child: const Text('Get Started'),
-            ),
+              child: const Text(
+                'Get Started',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              ),
+            )
           ],
         ),
       ),

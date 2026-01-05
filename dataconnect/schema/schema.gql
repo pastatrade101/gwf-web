@@ -1,0 +1,54 @@
+type User @table {
+  email: String!
+  displayName: String!
+  createdAt: Timestamp!
+  photoUrl: String
+  address: String
+  city: String
+  state: String
+  zipCode: String
+}
+
+type Department @table {
+  name: String!
+  contactEmail: String!
+  website: String
+  address: String
+  phoneNumber: String
+}
+
+type NewsArticle @table {
+  title: String!
+  content: String!
+  publishedAt: Timestamp!
+  category: String!
+  imageUrl: String
+  author: String
+  region: String
+  council: String
+}
+
+type Service @table {
+  name: String!
+  description: String!
+  department: Department!
+  requirements: String
+  onlineLink: String
+  contactInfo: String
+}
+
+type Inquiry @table {
+  subject: String!
+  message: String!
+  submittedAt: Timestamp!
+  status: String!
+  user: User!
+  department: Department!
+  attachmentUrl: String
+}
+
+type NotificationSubscription @table {
+  type: String!
+  targetIdentifier: String!
+  user: User!
+}

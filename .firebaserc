@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "book-app-65107445-681db",
+    "prod": "book-app-65107445-681db"
+  },
+  "targets": {},
+  "etags": {}
+}
