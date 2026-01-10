@@ -46,9 +46,14 @@ dependencies:
   firebase_core: ^3.15.2
   webview_flutter: ^4.7.0
   firebase_auth: ^5.7.0
+  firebase_messaging: ^15.2.4
   firebase_data_connect: ^0.1.5+4
+  device_info_plus: ^10.1.2
   http: ^1.2.2
   share_plus: ^10.0.2
+  easy_pdf_viewer:
+    path: third_party/easy_pdf_viewer
+  google_generative_ai: ^0.4.7
 
 
 
@@ -113,5 +118,5 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/logos/GWF_launcher.png
+  image_path: assets/SPLASH2.png
   remove_alpha_ios: true
